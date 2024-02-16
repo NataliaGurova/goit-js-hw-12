@@ -34,6 +34,22 @@ const END_POINT = "/api/";
 let page = 1;
 let perPage = 15;
 
+// Function to show the loader
+const showLoader = () => {
+  const loader = document.createElement('span');
+  loader.classList.add('loader');
+  loader.textContent = "Loading images, please wait...";
+  block.append(loader);
+};
+
+// Function to hide the loader
+const hideLoader = () => {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.remove();
+  }
+};
+
 
 async function searchImages(userSearch) {
   try {
@@ -71,25 +87,6 @@ if (data.totalHits === 0) {
 
 
 // export { gallery };
-
-
-
-// Function to show the loader
-const showLoader = () => {
-  const loader = document.createElement('span');
-  loader.classList.add('loader');
-  loader.textContent = "Loading images, please wait...";
-  block.append(loader);
-};
-
-// Function to hide the loader
-const hideLoader = () => {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.remove();
-  }
-};
-
 // export { hideLoader };
 
 
