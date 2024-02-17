@@ -2,7 +2,6 @@ import axios from "axios";
 
 
 const API_KEY = "42275750-ff2dba3de74b1266fbd0f53be";
-let perPage = 15;
 
 
 export async function searchImages(userSearch, page) {
@@ -11,7 +10,7 @@ export async function searchImages(userSearch, page) {
         key: API_KEY,
         q: userSearch,
         image_type: "photo",
-        per_page: perPage,
+        per_page: 15,
         page: page,
       });
     axios.defaults.baseURL = "https://pixabay.com";

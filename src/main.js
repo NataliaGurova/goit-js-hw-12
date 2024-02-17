@@ -23,7 +23,7 @@ const options = {
   captionDelay: 250,
 };
 
- let page;
+let page;
 let userSearch;
 let maxPage; 
 
@@ -47,7 +47,7 @@ const hideLoader = () => {
 textInput.addEventListener("submit", handleSubmit);
 loadMoreBtn.addEventListener("click", loadMoreClick);
 
-// ===================================
+
 async function handleSubmit(e) {
   e.preventDefault();
   showLoader();
@@ -71,7 +71,6 @@ async function handleSubmit(e) {
     lightbox.refresh();
 
     checkBtnStatus();
-    console.log(data);
   }
   textInput.reset();
   hideLoader();
@@ -87,10 +86,10 @@ async function loadMoreClick() {
 
   const height = gallery.firstElementChild.getBoundingClientRect().height;
   scrollBy({ top: height * 2, left: 0, behavior: 'smooth' });
-  checkBtnStatus();
-
+ 
   lightbox = new SimpleLightbox('.gallery a', options);
   lightbox.refresh();
+  checkBtnStatus();
 };
 
 
