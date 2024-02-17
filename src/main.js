@@ -23,7 +23,7 @@ const options = {
   captionDelay: 250,
 };
 
-let page;
+ let page;
 let userSearch;
 let maxPage; 
 
@@ -54,7 +54,7 @@ async function handleSubmit(e) {
 
   userSearch = textInput.elements.query.value.trim();
   page = 1;
-  const data = await searchImages(userSearch);
+  const data = await searchImages(userSearch, page);
   maxPage= Math.ceil(data.totalHits / 15);
   gallery.innerHTML = '';
 
@@ -81,7 +81,7 @@ async function handleSubmit(e) {
 async function loadMoreClick() {
   showLoader();
   page += 1;
-  const data = await searchImages(userSearch);
+  const data = await searchImages(userSearch, page);
   renderGallery(data.hits);
   hideLoader();
 
