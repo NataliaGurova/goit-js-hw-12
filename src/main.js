@@ -55,7 +55,7 @@ async function handleSubmit(e) {
   userSearch = textInput.elements.query.value.trim();
   page = 1;
   const data = await searchImages(userSearch, page);
-  maxPage= Math.ceil(data.totalHits / 15);
+  maxPage = Math.ceil(data.totalHits / 15);
   gallery.innerHTML = '';
 
   if (userSearch === "") {
@@ -83,13 +83,13 @@ async function loadMoreClick() {
   const data = await searchImages(userSearch, page);
   renderGallery(data.hits);
   hideLoader();
+ checkBtnStatus();
 
   const height = gallery.firstElementChild.getBoundingClientRect().height;
   scrollBy({ top: height * 2, left: 0, behavior: 'smooth' });
  
   lightbox = new SimpleLightbox('.gallery a', options);
   lightbox.refresh();
-  checkBtnStatus();
 };
 
 
