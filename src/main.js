@@ -2,10 +2,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-import axios from "axios";
+
 
 import { searchImages } from "./js/pixabay-api";
 import { renderGallery } from "./js/render-functions"
+import { hideLoader } from "./js/hideloader";
 
 
 const textInput = document.querySelector("#form");
@@ -26,6 +27,7 @@ const options = {
 let page;
 let userSearch;
 let maxPage; 
+let lightbox = new SimpleLightbox('.gallery a', options);
 
 // Function to show the loader
 const showLoader = () => {
@@ -35,13 +37,6 @@ const showLoader = () => {
   block.append(loader);
 };
 
-// Function to hide the loader
-const hideLoader = () => {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.remove();
-  }
-};
 
 
 textInput.addEventListener("submit", handleSubmit);
@@ -50,28 +45,32 @@ loadMoreBtn.addEventListener("click", loadMoreClick);
 
 async function handleSubmit(e) {
   e.preventDefault();
-  showLoader();
-
+  gallery.innerHTML = '';
   userSearch = textInput.elements.query.value.trim();
   page = 1;
-  const data = await searchImages(userSearch, page);
-  maxPage = Math.ceil(data.totalHits / 15);
-  gallery.innerHTML = '';
 
-  if (userSearch === "") {
-    iziToast.error({
-          position: 'topRight',
-          color: 'red',
-          message: `Sorry, there are no images matching<br>your search query. Please try again!`,
-        });
-  } else {
-    renderGallery(data.hits); 
+  try {
+    const data = await searchImages(userSearch, page);
+    maxPage = Math.ceil(data.totalHits / 15);
 
-    let lightbox = new SimpleLightbox('.gallery a', options);
-    lightbox.refresh();
+    if (userSearch === "") {
+      hideLoader();
+      iziToast.error({
+        position: 'topRight',
+        color: 'red',
+        message: `Sorry, there are no images matching<br>your search query. Please try again!`,
+      });
+    } else {
+      showLoader();
+      renderGallery(data.hits);
 
-    checkBtnStatus();
-  }
+      lightbox.refresh();
+
+      checkBtnStatus();
+    }
+  } catch(error) {
+      console.error("Error fetching data:", error);
+    }
   textInput.reset();
   hideLoader();
 };
@@ -83,12 +82,11 @@ async function loadMoreClick() {
   const data = await searchImages(userSearch, page);
   renderGallery(data.hits);
   hideLoader();
- checkBtnStatus();
+  checkBtnStatus();
 
   const height = gallery.firstElementChild.getBoundingClientRect().height;
   scrollBy({ top: height * 2, left: 0, behavior: 'smooth' });
- 
-  lightbox = new SimpleLightbox('.gallery a', options);
+
   lightbox.refresh();
 };
 

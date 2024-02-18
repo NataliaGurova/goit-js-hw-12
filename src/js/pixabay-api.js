@@ -1,5 +1,7 @@
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 import axios from "axios";
-
+import { hideLoader } from "./hideloader"
 
 const API_KEY = "42275750-ff2dba3de74b1266fbd0f53be";
 
