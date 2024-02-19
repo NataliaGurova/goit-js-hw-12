@@ -24,7 +24,8 @@ button {
 .block {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  /* width: 1440px; */
+  width: 100%;
   padding-top: 36px;
 }
 
