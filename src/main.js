@@ -28,6 +28,8 @@ let page;
 let userSearch;
 let maxPage; 
 let lightbox = new SimpleLightbox('.gallery a', options);
+loadMoreBtn.style.display = "none";
+
 
 // Function to show the loader
 const showLoader = () => {
@@ -45,9 +47,12 @@ loadMoreBtn.addEventListener("click", loadMoreClick);
 
 async function handleSubmit(e) {
   e.preventDefault();
+  loadMoreBtn.style.display = "none";
   gallery.innerHTML = '';
   userSearch = textInput.elements.query.value.trim();
+
   page = 1;
+
 
   try {
     const data = await searchImages(userSearch, page);
@@ -69,7 +74,7 @@ async function handleSubmit(e) {
       checkBtnStatus();
     }
   } catch(error) {
-      console.error("Error fetching data:", error);
+    console.log("Error fetching data:", error);
     }
   textInput.reset();
   hideLoader();
